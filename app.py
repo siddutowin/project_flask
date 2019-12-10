@@ -21,14 +21,14 @@ def hello_world():
 
 # @app.route('/insert')
 # def add_data_one():
-#     db = firestore.Client()
-#     doc_ref = db.collection(u'users').document(u'all')
-#     doc_ref.set({
-#         u'username': u'siddesha',
-#         u'password': u'123456',
-#         u'born': 1987
-#     })
-#     return 'inserted'
+#      db = firestore.Client()
+#      doc_ref = db.collection(u'users').document(u'all')
+#      doc_ref.set({
+#          u'username': u'siddesha',
+#          u'password': u'123456',
+#          u'born': 1987
+#      })
+#      return 'inserted'
 
 
 # @app.route('/read')
@@ -64,8 +64,6 @@ def send():
     user = request.json['username']
     pasw = request.json['password']
     passr = request.json['rpassword']
-    # return (user)
-    # return (pasw)
     if pasw == passr:
        resp = doc_ref.set({
          u'username': user,
@@ -77,6 +75,40 @@ def send():
         return "Inserted"
     else:
         return "Try again"
+
+
+@app.route('/valreg', methods=['POST'])
+def valreg():
+    db = firestore.Client()
+    user = request.json['username']
+    pasw = request.json['password']
+    passr = request.json['rpassword']
+    resp = db.collection(u'users').where(u'username', u'==', True).stream()
+    for doc in resp:
+     print(u'{} => {}'.format(doc.id, doc.to_dict()))
+    if resp:
+        return "Please retry with different username"
+    else:
+        # resp = doc_ref.set({
+        #    u'username':user,
+        #    u'password':pasw,
+        # })
+        if user == '0':
+            return "Please Enter a Username "
+        else:
+            return "The username is accepted "
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
