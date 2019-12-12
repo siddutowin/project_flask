@@ -99,6 +99,30 @@ def valreg():
             return "The username is accepted "
 
 
+@app.route('/valreg2', methods=['POST'])
+def valreg2():
+    db = firestore.Client()
+    user = request.json['username']
+    pasw = request.json['password']
+    passr = request.json['rpassword']
+    resp = db.collection(u'users').where(u'password', u'==', True).stream()
+    for doc in resp:
+     print(u'{} => {}'.format(doc.id, doc.to_dict()))
+    if resp:
+        return "Please retry with different password"
+    else:
+        # resp = doc_ref.set({
+        #    u'username':user,
+        #    u'password':pasw,
+        # })
+        if user == '0':
+            return "Please Enter a password "
+        else:
+            return "The username is accepted "
+
+
+
+
 
 
 
